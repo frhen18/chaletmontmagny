@@ -1,17 +1,10 @@
 {
-  "_documentation": {
-    "description": "Liste des dates réservées du chalet. Mettre à jour après chaque réservation confirmée.",
-    "format": "Chaque entrée a une date de début (jour d'arrivée) et une date de fin (jour de départ). Les dates sont au format YYYY-MM-DD.",
-    "exemple": "{ \"debut\": \"2026-07-15\", \"fin\": \"2026-07-22\", \"note\": \"optionnel - juste pour vos référence\" }",
-    "important": "Le jour de départ n'est PAS considéré comme réservé (le client part ce jour-là, un autre peut arriver). Ex: arrivée 15 juillet, départ 22 juillet = nuits du 15 au 21 inclus bloquées.",
-    "mise_a_jour": "Modifier ce fichier sur GitHub. Cloudflare redéploie automatiquement en 30 secondes."
-  },
   "reservations": [
-    { "debut": "2026-06-24", "fin": "2026-06-27", "note": "Shirley" }
-    { "debut": "2026-06-28", "fin": "2026-07-05", "note": "Famille" }
-    { "debut": "2026-07-06", "fin": "2026-07-20", "note": "Cynthia" }
-    { "debut": "2026-07-22", "fin": "2026-07-28", "note": "Shirley 2" }
-    { "debut": "2026-07-30", "fin": "2026-08-04", "note": "Home Exhange Lysandre" }
+    { "debut": "2026-06-24", "fin": "2026-06-27", "note": "Shirley" },
+    { "debut": "2026-06-28", "fin": "2026-07-05", "note": "Famille" },
+    { "debut": "2026-07-06", "fin": "2026-07-20", "note": "Cynthia" },
+    { "debut": "2026-07-22", "fin": "2026-07-28", "note": "Shirley 2" },
+    { "debut": "2026-07-30", "fin": "2026-08-04", "note": "Home Exchange Lysandre" },
     { "debut": "2026-08-05", "fin": "2026-08-16", "note": "Catherine" }
   ]
 }
