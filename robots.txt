@@ -1,0 +1,9 @@
+# Robots.txt pour chaletmontmagny.ca
+# Bienvenue aux moteurs de recherche
+
+User-agent: *
+Allow: /
+Disallow: /disponibilites.json
+
+# Localisation du sitemap
+Sitemap: https://chaletmontmagny.ca/sitemap.xml

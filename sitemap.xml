@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://chaletmontmagny.ca/</loc>
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://chaletmontmagny.ca/images/hero-chaises-charlevoix.jpg</image:loc>
+      <image:title>Chaises Adirondack face au Saint-Laurent au coucher du soleil</image:title>
+      <image:caption>Vue du terrain du chalet sur le fleuve Saint-Laurent à Montmagny</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://chaletmontmagny.ca/images/01-coucher-soleil-feu.jpg</image:loc>
+      <image:title>Coucher de soleil et feu de camp au bord du fleuve</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://chaletmontmagny.ca/images/03-chalet-exterieur.jpg</image:loc>
+      <image:title>Le chalet sous les grands arbres</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://chaletmontmagny.ca/images/12-charcuterie-fleuve.jpg</image:loc>
+      <image:title>Soirée au bord du feu face au fleuve</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://chaletmontmagny.ca/images/13-feu-coucher-soleil.jpg</image:loc>
+      <image:title>Feu de camp au coucher du soleil sur Charlevoix</image:title>
+    </image:image>
+  </url>
+</urlset>
