@@ -1901,6 +1901,64 @@ section.section-wide { max-width: none; padding-left: 0; padding-right: 0; }
   font-style: italic;
 }
 
+/* Bouton de confirmation */
+.cal-confirm-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+  padding: 0.95rem 1.85rem;
+  background: var(--ink);
+  color: var(--bg-light);
+  border: none;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: all 0.4s var(--ease);
+}
+.cal-confirm-btn:hover:not(:disabled) {
+  background: var(--moss);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+.cal-confirm-btn:disabled {
+  background: var(--muted-soft);
+  cursor: not-allowed;
+  opacity: 0.55;
+  transform: none;
+}
+.cal-confirm-btn svg {
+  transition: transform 0.3s var(--ease);
+}
+.cal-confirm-btn:hover:not(:disabled) svg {
+  transform: translateX(3px);
+}
+
+.cal-warning {
+  display: block;
+  margin-top: 0.75rem;
+  color: var(--terracotta);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.cal-rabais {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.25rem 0.65rem;
+  background: var(--moss);
+  color: var(--bg-light);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  font-family: var(--font-sans);
+  font-style: normal;
+  vertical-align: middle;
+}
+
 /* État de chargement */
 .cal-loading {
   text-align: center;
@@ -2416,12 +2474,12 @@ footer {
 
         <div class="policy-item">
           <span class="when">À la réservation</span>
-          <span class="what">Acompte de 50 % par virement Interac pour confirmer le séjour.</span>
+          <span class="what">Acompte de 50 % par virement Interac à facturation@chaletmontmagny.ca pour confirmer le séjour.</span>
         </div>
 
         <div class="policy-item">
           <span class="when">14 jours avant l'arrivée</span>
-          <span class="what">Solde de 50 % dû par virement Interac.</span>
+          <span class="what">Solde de 50 % dû par virement Interac à facturation@chaletmontmagny.ca.</span>
         </div>
 
         <div class="policy-item">
@@ -2669,7 +2727,7 @@ footer {
         <span class="icon">+</span>
       </button>
       <div class="faq-answer"><div class="faq-answer-inner">
-        Le chalet est <strong>de plain-pied à l'intérieur</strong>, sans escaliers. Il y a toutefois quelques marches pour accéder à l'entrée et le terrain a une pente naturelle vers le fleuve. Aucune rampe d'accès n'est installée. Si vous avez des besoins particuliers, écrivez-nous et on évaluera ensemble ce qui est faisable.
+        Le chalet est <strong>de plain-pied à l'intérieur</strong>, sans escaliers. Il y a toutefois quelques marches pour accéder à l'entrée, ainsi que quelques marches en roche pour atteindre la grève et le fleuve depuis le terrain. Aucune rampe d'accès n'est installée. Si vous avez des besoins particuliers, écrivez-nous et on évaluera ensemble ce qui est faisable.
       </div></div>
     </div>
 
@@ -2847,7 +2905,7 @@ footer {
       <aside class="reservation-info reveal delay-1">
         <h3>Comment ça se passe</h3>
         <p>Le chalet accueille jusqu'à 8 voyageurs. Arrivée idéalement à partir de 13 h, départ idéalement avant 13 h, avec flexibilité sur demande.</p>
-        <p>Vous nous écrivez, on vérifie les disponibilités et on revient rapidement avec un devis détaillé et les instructions de paiement par virement Interac.</p>
+        <p>Vous nous écrivez, on vérifie les disponibilités et on revient rapidement avec un devis détaillé et les instructions de paiement par virement Interac à facturation@chaletmontmagny.ca.</p>
         <p>On parle français et anglais.</p>
         <div class="citq">
           <strong>Pour toute question :</strong><br>
@@ -2894,9 +2952,7 @@ footer {
     <div class="footer-col">
       <h4>Nous joindre</h4>
       <ul>
-        <li><a href="#reserver">Réserver</a></li>
         <li>info@chaletmontmagny.ca</li>
-        <li>Français · English</li>
       </ul>
     </div>
   </div>
@@ -3201,7 +3257,7 @@ footer {
           showError('Cette plage contient des dates déjà réservées. Sélectionnez une nouvelle date d\'arrivée.');
         } else {
           selectedEnd = clickedDate;
-          updateFormDates();
+          // Note : on ne pré-remplit plus le formulaire ici, c'est le bouton qui le fait
         }
         updateInstruction();
         renderCalendar();
@@ -3221,20 +3277,50 @@ footer {
       `;
     } else {
       const nights = Math.round((selectedEnd - selectedStart) / (1000 * 60 * 60 * 24));
-      let nightLabel = `${nights} nuit${nights > 1 ? 's' : ''}`;
-      let rabaisLabel = '';
-      if (nights >= 14) rabaisLabel = ' · Rabais long séjour 15 %';
-      else if (nights >= 7) rabaisLabel = ' · Rabais long séjour 10 %';
-      else if (nights < 3) rabaisLabel = ' · ⚠ Minimum 3 nuits requis';
+      const nightLabel = `${nights} nuit${nights > 1 ? 's' : ''}`;
+      let rabaisHtml = '';
+      let warningHtml = '';
+      let btnDisabled = false;
+
+      if (nights < 3) {
+        warningHtml = `<span class="cal-warning">⚠ Le séjour minimum est de 3 nuits — veuillez ajuster votre sélection.</span>`;
+        btnDisabled = true;
+      } else if (nights >= 14) {
+        rabaisHtml = `<span class="cal-rabais">Rabais long séjour : −15 %</span>`;
+      } else if (nights >= 7) {
+        rabaisHtml = `<span class="cal-rabais">Rabais long séjour : −10 %</span>`;
+      }
 
       instructionEl.className = 'cal-instruction has-selection';
       instructionEl.innerHTML = `
-        Votre séjour est sélectionné. Faites votre demande au formulaire ci-dessous.
+        Votre séjour est sélectionné.
         <span class="cal-instruction-dates">
           Du ${formatDateFr(selectedStart)} au ${formatDateFr(selectedEnd)}<br>
-          <span class="cal-instruction-nights">${nightLabel}${rabaisLabel}</span>
+          <span class="cal-instruction-nights">${nightLabel}</span>${rabaisHtml}
         </span>
+        ${warningHtml}
+        <button type="button" class="cal-confirm-btn" id="cal-confirm-btn" ${btnDisabled ? 'disabled' : ''}>
+          Demander ces dates
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 6h13M10 1l4 5-4 5"/></svg>
+        </button>
       `;
+
+      // Bind le clic sur le bouton (si pas désactivé)
+      if (!btnDisabled) {
+        const confirmBtn = document.getElementById('cal-confirm-btn');
+        if (confirmBtn) {
+          confirmBtn.addEventListener('click', () => {
+            // Pré-remplir le formulaire
+            document.getElementById('arrivee').value = formatDate(selectedStart);
+            document.getElementById('depart').value = formatDate(selectedEnd);
+            // Scroll vers le formulaire
+            const formSection = document.getElementById('reserver');
+            if (formSection) {
+              formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          });
+        }
+      }
     }
   }
 
@@ -3250,23 +3336,6 @@ footer {
 
   function formatDateFr(date) {
     return `${date.getDate()} ${MOIS_FR[date.getMonth()]} ${date.getFullYear()}`;
-  }
-
-  function updateFormDates() {
-    if (selectedStart && selectedEnd) {
-      const arriveeInput = document.getElementById('arrivee');
-      const departInput = document.getElementById('depart');
-      arriveeInput.value = formatDate(selectedStart);
-      departInput.value = formatDate(selectedEnd);
-
-      // Scroll subtil vers le formulaire après une courte pause
-      setTimeout(() => {
-        const formSection = document.getElementById('reserver');
-        if (formSection) {
-          formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }, 600);
-    }
   }
 
   // Charger les disponibilités depuis le fichier JSON
