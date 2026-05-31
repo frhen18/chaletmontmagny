@@ -1959,6 +1959,61 @@ section.section-wide { max-width: none; padding-left: 0; padding-right: 0; }
   vertical-align: middle;
 }
 
+/* Calcul de prix dans l'encadré */
+.cal-pricing {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  text-align: left;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.cal-pricing-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  font-family: var(--font-sans);
+}
+.cal-pricing-row .label { color: var(--muted); }
+.cal-pricing-row .value { color: var(--ink); font-weight: 500; }
+.cal-pricing-row.subtotal-strike .value {
+  text-decoration: line-through;
+  color: var(--muted-soft);
+}
+.cal-pricing-row.rabais .value { color: var(--moss); }
+.cal-pricing-row.total {
+  margin-top: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--line);
+  font-size: 1.1rem;
+}
+.cal-pricing-row.total .label {
+  color: var(--ink);
+  font-weight: 500;
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+.cal-pricing-row.total .value {
+  font-size: 1.35rem;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.cal-pricing-note {
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 0.4rem;
+  font-style: italic;
+}
+
 /* État de chargement */
 .cal-loading {
   text-align: center;
@@ -3278,17 +3333,67 @@ footer {
     } else {
       const nights = Math.round((selectedEnd - selectedStart) / (1000 * 60 * 60 * 24));
       const nightLabel = `${nights} nuit${nights > 1 ? 's' : ''}`;
+      const TARIF_NUIT = 165;
       let rabaisHtml = '';
       let warningHtml = '';
+      let pricingHtml = '';
       let btnDisabled = false;
 
       if (nights < 3) {
         warningHtml = `<span class="cal-warning">⚠ Le séjour minimum est de 3 nuits — veuillez ajuster votre sélection.</span>`;
         btnDisabled = true;
-      } else if (nights >= 14) {
-        rabaisHtml = `<span class="cal-rabais">Rabais long séjour : −15 %</span>`;
-      } else if (nights >= 7) {
-        rabaisHtml = `<span class="cal-rabais">Rabais long séjour : −10 %</span>`;
+      } else {
+        // Calcul du prix
+        const sousTotal = nights * TARIF_NUIT;
+        let rabaisPct = 0;
+        let rabaisLabel = '';
+
+        if (nights >= 14) {
+          rabaisPct = 0.15;
+          rabaisLabel = 'Rabais long séjour (−15 %)';
+          rabaisHtml = `<span class="cal-rabais">Rabais long séjour : −15 %</span>`;
+        } else if (nights >= 7) {
+          rabaisPct = 0.10;
+          rabaisLabel = 'Rabais long séjour (−10 %)';
+          rabaisHtml = `<span class="cal-rabais">Rabais long séjour : −10 %</span>`;
+        }
+
+        const montantRabais = sousTotal * rabaisPct;
+        const total = sousTotal - montantRabais;
+
+        if (rabaisPct > 0) {
+          pricingHtml = `
+            <div class="cal-pricing">
+              <div class="cal-pricing-row subtotal-strike">
+                <span class="label">${nights} × 165 $</span>
+                <span class="value">${sousTotal} $</span>
+              </div>
+              <div class="cal-pricing-row rabais">
+                <span class="label">${rabaisLabel}</span>
+                <span class="value">−${montantRabais.toFixed(0)} $</span>
+              </div>
+              <div class="cal-pricing-row total">
+                <span class="label">Total</span>
+                <span class="value">${total.toFixed(0)} $</span>
+              </div>
+              <div class="cal-pricing-note">Taxe d'hébergement de 3,5 % applicable en sus</div>
+            </div>
+          `;
+        } else {
+          pricingHtml = `
+            <div class="cal-pricing">
+              <div class="cal-pricing-row">
+                <span class="label">${nights} × 165 $</span>
+                <span class="value">${sousTotal} $</span>
+              </div>
+              <div class="cal-pricing-row total">
+                <span class="label">Total</span>
+                <span class="value">${total.toFixed(0)} $</span>
+              </div>
+              <div class="cal-pricing-note">Taxe d'hébergement de 3,5 % applicable en sus</div>
+            </div>
+          `;
+        }
       }
 
       instructionEl.className = 'cal-instruction has-selection';
@@ -3298,6 +3403,7 @@ footer {
           Du ${formatDateFr(selectedStart)} au ${formatDateFr(selectedEnd)}<br>
           <span class="cal-instruction-nights">${nightLabel}</span>${rabaisHtml}
         </span>
+        ${pricingHtml}
         ${warningHtml}
         <button type="button" class="cal-confirm-btn" id="cal-confirm-btn" ${btnDisabled ? 'disabled' : ''}>
           Demander ces dates
