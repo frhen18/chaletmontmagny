@@ -2005,6 +2005,21 @@ section.section-wide { max-width: none; padding-left: 0; padding-right: 0; }
 .cal-day.reserved:hover {
   transform: none;
 }
+.cal-day.hors-saison {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--bg-warm),
+    var(--bg-warm) 4px,
+    var(--line-soft) 4px,
+    var(--line-soft) 5px
+  );
+  color: var(--muted);
+  cursor: not-allowed;
+  font-weight: 400;
+}
+.cal-day.hors-saison:hover {
+  transform: none;
+}
 .cal-day.today {
   border-color: var(--ink);
   font-weight: 600;
@@ -2052,6 +2067,16 @@ section.section-wide { max-width: none; padding-left: 0; padding-right: 0; }
 .cal-legend-swatch.available { background: var(--bg-light); border: 1px solid var(--line); }
 .cal-legend-swatch.reserved { background: var(--terracotta); }
 .cal-legend-swatch.selected { background: var(--ink); }
+.cal-legend-swatch.hors-saison {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--bg-warm),
+    var(--bg-warm) 2px,
+    var(--line-soft) 2px,
+    var(--line-soft) 3px
+  );
+  border: 1px solid var(--line);
+}
 
 /* Message d'instruction */
 .cal-instruction {
@@ -2756,7 +2781,7 @@ footer {
     <div class="section-header reveal">
       <div class="section-eyebrow">
         <span class="num">07 / Disponibilités</span>
-        En temps réel
+        Saison du 16 mai au 14 octobre
       </div>
       <h2>Vérifiez les <em>dates libres,</em> sélectionnez votre séjour.</h2>
     </div>
@@ -2774,6 +2799,10 @@ footer {
         <div class="cal-legend-item">
           <span class="cal-legend-swatch reserved"></span>
           <span>Réservé</span>
+        </div>
+        <div class="cal-legend-item">
+          <span class="cal-legend-swatch hors-saison"></span>
+          <span>Hors saison</span>
         </div>
         <div class="cal-legend-item">
           <span class="cal-legend-swatch selected"></span>
@@ -3381,6 +3410,32 @@ footer {
     return reservations.some(r => dateStr >= r.debut && dateStr < r.fin);
   }
 
+  // Vérifier si une date est hors saison (fermeture annuelle)
+  // Chalet ouvert du 16 mai au 14 octobre (inclus)
+  // Donc fermé du 15 octobre au 15 mai (inclus)
+  function isHorsSaison(date) {
+    const mois = date.getMonth(); // 0 = janvier, 11 = décembre
+    const jour = date.getDate();
+
+    // Janvier (0), février (1), mars (2), avril (3) : toujours fermé
+    if (mois <= 3) return true;
+
+    // Mai (4) : fermé du 1er au 15 inclus
+    if (mois === 4 && jour <= 15) return true;
+
+    // Juin (5) à septembre (8) : ouvert
+    if (mois >= 5 && mois <= 8) return false;
+
+    // Octobre (9) : fermé à partir du 15
+    if (mois === 9 && jour >= 15) return true;
+
+    // Novembre (10), décembre (11) : toujours fermé
+    if (mois >= 10) return true;
+
+    // Tout le reste (juin à mi-octobre) : ouvert
+    return false;
+  }
+
   function isPast(date) {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -3394,11 +3449,12 @@ footer {
            date.getFullYear() === today.getFullYear();
   }
 
-  // Vérifier qu'aucune date réservée n'est dans la plage sélectionnée
+  // Vérifier qu'aucune date réservée ni hors saison n'est dans la plage sélectionnée
   function rangeIsValid(start, end) {
     const current = new Date(start);
     while (current < end) {
       if (isReserved(current)) return false;
+      if (isHorsSaison(current)) return false;
       current.setDate(current.getDate() + 1);
     }
     return true;
@@ -3441,6 +3497,8 @@ footer {
         classes.push('past');
       } else if (isReserved(date)) {
         classes.push('reserved');
+      } else if (isHorsSaison(date)) {
+        classes.push('hors-saison');
       } else {
         classes.push('available');
       }
@@ -3497,10 +3555,23 @@ footer {
           selectedStart = clickedDate;
           selectedEnd = null;
         } else if (!rangeIsValid(selectedStart, clickedDate)) {
-          // Si la plage contient des dates réservées, on réinitialise
+          // Vérifier ce qui pose problème pour donner un message précis
+          const current = new Date(selectedStart);
+          let raison = '';
+          while (current < clickedDate) {
+            if (isHorsSaison(current)) {
+              raison = 'Cette plage inclut des dates hors saison (chalet fermé du 15 octobre au 15 mai). Sélectionnez une période entre le 16 mai et le 14 octobre.';
+              break;
+            }
+            if (isReserved(current)) {
+              raison = 'Cette plage contient des dates déjà réservées. Sélectionnez une nouvelle date d\'arrivée.';
+              break;
+            }
+            current.setDate(current.getDate() + 1);
+          }
           selectedStart = clickedDate;
           selectedEnd = null;
-          showError('Cette plage contient des dates déjà réservées. Sélectionnez une nouvelle date d\'arrivée.');
+          showError(raison || 'Plage invalide. Sélectionnez une nouvelle date d\'arrivée.');
         } else {
           selectedEnd = clickedDate;
           // Note : on ne pré-remplit plus le formulaire ici, c'est le bouton qui le fait
@@ -3675,6 +3746,21 @@ footer {
       status.textContent = '⚠ Le séjour minimum est de 3 nuits.';
       status.className = 'error';
       return;
+    }
+
+    // Vérifier que les dates ne sont pas hors saison
+    if (typeof isHorsSaison === 'function') {
+      const checkDate = new Date(arrivee);
+      while (checkDate < depart) {
+        if (isHorsSaison(checkDate)) {
+          status.textContent = '⚠ Les dates sélectionnées incluent une période hors saison. Le chalet est ouvert du 16 mai au 14 octobre.';
+          status.className = 'error';
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = submitBtnOriginal;
+          return;
+        }
+        checkDate.setDate(checkDate.getDate() + 1);
+      }
     }
 
     // Vérifier que les dates ne chevauchent pas une réservation existante
