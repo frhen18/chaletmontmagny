@@ -1207,15 +1207,16 @@ section.section-wide { max-width: none; padding-left: 0; padding-right: 0; }
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(31, 42, 36, 0.97);
+  background: #0d1410;
   z-index: 1000;
   align-items: center;
   justify-content: center;
   padding: 5rem 1.5rem;
+  touch-action: pan-y;
 }
 .lightbox.open {
   display: flex;
-  animation: fadeIn 0.3s ease forwards;
+  animation: fadeIn 0.25s ease forwards;
 }
 .lightbox-img-container {
   position: relative;
@@ -1224,6 +1225,7 @@ section.section-wide { max-width: none; padding-left: 0; padding-right: 0; }
   display: flex;
   align-items: center;
   justify-content: center;
+  touch-action: pan-y;
 }
 .lightbox img {
   max-width: 100%;
@@ -1231,6 +1233,12 @@ section.section-wide { max-width: none; padding-left: 0; padding-right: 0; }
   object-fit: contain;
   border-radius: 4px;
   box-shadow: var(--shadow-lg);
+  user-select: none;
+  -webkit-user-drag: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.lightbox img.swiping {
+  transition: none;
 }
 .lightbox-close,
 .lightbox-prev,
@@ -1604,10 +1612,14 @@ section.section-wide { max-width: none; padding-left: 0; padding-right: 0; }
       <img src="images/07-salon-vue-large.jpg" alt="Vue d'ensemble du salon" loading="lazy">
     </div>
 
-    <div class="gallery-item g-half reveal-image" data-img="images/12-charcuterie-fleuve.jpg" data-caption="Soirée au bord du feu">
+    <div class="gallery-item g-half reveal-image" data-img="images/14-salle-bain.jpg" data-caption="Salle de bain moderne">
+      <img src="images/14-salle-bain.jpg" alt="Salle de bain avec douche en verre et finitions bois" loading="lazy">
+    </div>
+    <div class="gallery-item g-half reveal-image delay-1" data-img="images/12-charcuterie-fleuve.jpg" data-caption="Soirée au bord du feu">
       <img src="images/12-charcuterie-fleuve.jpg" alt="Charcuterie face au feu et au fleuve" loading="lazy">
     </div>
-    <div class="gallery-item g-half reveal-image delay-1" data-img="images/13-feu-coucher-soleil.jpg" data-caption="Feu de camp au coucher du soleil sur Charlevoix">
+
+    <div class="gallery-item g-half reveal-image" data-img="images/13-feu-coucher-soleil.jpg" data-caption="Feu de camp au coucher du soleil sur Charlevoix">
       <img src="images/13-feu-coucher-soleil.jpg" alt="Feu actif avec coucher de soleil sur Charlevoix" loading="lazy">
     </div>
   </div>
@@ -3366,6 +3378,59 @@ footer {
     if (e.key === 'ArrowRight') nextImage();
     if (e.key === 'ArrowLeft') prevImage();
   });
+
+  // === SWIPE TACTILE POUR MOBILE ===
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchEndX = 0;
+  let touchEndY = 0;
+  let isSwiping = false;
+  const SWIPE_THRESHOLD = 50; // pixels minimum pour déclencher
+  const VERTICAL_LIMIT = 60; // si trop vertical, c'est probablement un scroll
+
+  lightbox.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+    isSwiping = false;
+  }, { passive: true });
+
+  lightbox.addEventListener('touchmove', (e) => {
+    const currentX = e.changedTouches[0].screenX;
+    const currentY = e.changedTouches[0].screenY;
+    const dx = currentX - touchStartX;
+    const dy = currentY - touchStartY;
+
+    // Si mouvement horizontal dominant, on est en train de swiper
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 10) {
+      isSwiping = true;
+      lightboxImg.classList.add('swiping');
+      // Effet visuel pendant le swipe : décale et estompe légèrement
+      lightboxImg.style.transform = `translateX(${dx * 0.5}px)`;
+      lightboxImg.style.opacity = Math.max(0.5, 1 - Math.abs(dx) / 400);
+    }
+  }, { passive: true });
+
+  lightbox.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    touchEndY = e.changedTouches[0].screenY;
+    const dx = touchEndX - touchStartX;
+    const dy = touchEndY - touchStartY;
+
+    // Réinitialiser le style
+    lightboxImg.classList.remove('swiping');
+    lightboxImg.style.transform = '';
+    lightboxImg.style.opacity = '';
+
+    // Vérifier si c'est un vrai swipe horizontal
+    if (Math.abs(dx) > SWIPE_THRESHOLD && Math.abs(dy) < VERTICAL_LIMIT) {
+      if (dx < 0) {
+        nextImage(); // swipe vers la gauche = photo suivante
+      } else {
+        prevImage(); // swipe vers la droite = photo précédente
+      }
+    }
+    isSwiping = false;
+  }, { passive: true });
 
   // === FAQ ACCORDION ===
   document.querySelectorAll('.faq-question').forEach(btn => {
