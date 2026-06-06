@@ -583,6 +583,7 @@ nav.site-nav.scrolled {
   opacity: 0.6;
 }
 @keyframes fadeIn { to { opacity: 0.8; } }
+@keyframes lightboxFadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes gentleBounce {
   0%, 100% { transform: translateX(-50%) translateY(0); }
   50% { transform: translateX(-50%) translateY(6px); }
@@ -1212,11 +1213,10 @@ section.section-wide { max-width: none; padding-left: 0; padding-right: 0; }
   align-items: center;
   justify-content: center;
   padding: 5rem 1.5rem;
-  touch-action: pan-y;
 }
 .lightbox.open {
   display: flex;
-  animation: fadeIn 0.25s ease forwards;
+  animation: lightboxFadeIn 0.25s ease forwards;
 }
 .lightbox-img-container {
   position: relative;
@@ -1235,7 +1235,8 @@ section.section-wide { max-width: none; padding-left: 0; padding-right: 0; }
   box-shadow: var(--shadow-lg);
   user-select: none;
   -webkit-user-drag: none;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: transform 0.2s ease;
+  opacity: 1 !important;
 }
 .lightbox img.swiping {
   transition: none;
@@ -1243,34 +1244,38 @@ section.section-wide { max-width: none; padding-left: 0; padding-right: 0; }
 .lightbox-close,
 .lightbox-prev,
 .lightbox-next {
-  position: absolute;
-  background: rgba(250, 246, 238, 0.12);
-  border: 1px solid rgba(250, 246, 238, 0.2);
+  position: fixed;
+  background: rgba(13, 20, 16, 0.85);
+  border: 1px solid rgba(250, 246, 238, 0.3);
   color: var(--bg-light);
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s;
-  backdrop-filter: blur(8px);
+  transition: background 0.2s, transform 0.2s;
+  z-index: 1010;
+  -webkit-tap-highlight-color: transparent;
 }
 .lightbox-close:hover,
 .lightbox-prev:hover,
-.lightbox-next:hover {
+.lightbox-next:hover,
+.lightbox-close:active,
+.lightbox-prev:active,
+.lightbox-next:active {
   background: rgba(250, 246, 238, 0.2);
-  transform: scale(1.05);
+  transform: scale(1.08);
 }
 .lightbox-close { top: 1.5rem; right: 1.5rem; }
 .lightbox-prev { top: 50%; left: 1.5rem; transform: translateY(-50%); }
 .lightbox-next { top: 50%; right: 1.5rem; transform: translateY(-50%); }
-.lightbox-prev:hover { transform: translateY(-50%) scale(1.05); }
-.lightbox-next:hover { transform: translateY(-50%) scale(1.05); }
+.lightbox-prev:hover, .lightbox-prev:active { transform: translateY(-50%) scale(1.08); }
+.lightbox-next:hover, .lightbox-next:active { transform: translateY(-50%) scale(1.08); }
 .lightbox-caption {
-  position: absolute;
+  position: fixed;
   bottom: 1.5rem;
   left: 50%;
   transform: translateX(-50%);
@@ -1278,6 +1283,7 @@ section.section-wide { max-width: none; padding-left: 0; padding-right: 0; }
   font-size: 0.85rem;
   letter-spacing: 0.05em;
   text-align: center;
+  z-index: 1010;
 }
 .lightbox-counter {
   font-family: var(--font-serif);
@@ -1289,10 +1295,11 @@ section.section-wide { max-width: none; padding-left: 0; padding-right: 0; }
 
 @media (max-width: 720px) {
   .lightbox-prev, .lightbox-next {
-    width: 40px; height: 40px;
+    width: 46px; height: 46px;
+    font-size: 1.35rem;
   }
-  .lightbox-prev { left: 0.5rem; }
-  .lightbox-next { right: 0.5rem; }
+  .lightbox-prev { left: 0.75rem; }
+  .lightbox-next { right: 0.75rem; }
 }
 </style>
 
@@ -3343,6 +3350,10 @@ footer {
     const item = galleryItems[idx];
     lightboxImg.src = item.dataset.img;
     lightboxImg.alt = item.querySelector('img').alt;
+    // Toujours s'assurer que l'image est complètement opaque
+    lightboxImg.style.opacity = '';
+    lightboxImg.style.transform = '';
+    lightboxImg.classList.remove('swiping');
     lbCaption.textContent = item.dataset.caption || '';
     lbCounter.textContent = `${idx + 1} / ${galleryItems.length}`;
     lightbox.classList.add('open');
@@ -3380,56 +3391,57 @@ footer {
   });
 
   // === SWIPE TACTILE POUR MOBILE ===
+  // Attaché uniquement au container de l'image pour ne pas interférer avec les boutons
+  const imgContainer = document.querySelector('.lightbox-img-container');
   let touchStartX = 0;
   let touchStartY = 0;
   let touchEndX = 0;
   let touchEndY = 0;
-  let isSwiping = false;
   const SWIPE_THRESHOLD = 50; // pixels minimum pour déclencher
   const VERTICAL_LIMIT = 60; // si trop vertical, c'est probablement un scroll
 
-  lightbox.addEventListener('touchstart', (e) => {
+  imgContainer.addEventListener('touchstart', (e) => {
     touchStartX = e.changedTouches[0].screenX;
     touchStartY = e.changedTouches[0].screenY;
-    isSwiping = false;
   }, { passive: true });
 
-  lightbox.addEventListener('touchmove', (e) => {
+  imgContainer.addEventListener('touchmove', (e) => {
     const currentX = e.changedTouches[0].screenX;
     const currentY = e.changedTouches[0].screenY;
     const dx = currentX - touchStartX;
     const dy = currentY - touchStartY;
 
-    // Si mouvement horizontal dominant, on est en train de swiper
+    // Si mouvement horizontal dominant, suivre le doigt (pas d'opacité, juste translation)
     if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 10) {
-      isSwiping = true;
       lightboxImg.classList.add('swiping');
-      // Effet visuel pendant le swipe : décale et estompe légèrement
-      lightboxImg.style.transform = `translateX(${dx * 0.5}px)`;
-      lightboxImg.style.opacity = Math.max(0.5, 1 - Math.abs(dx) / 400);
+      lightboxImg.style.transform = `translateX(${dx * 0.4}px)`;
     }
   }, { passive: true });
 
-  lightbox.addEventListener('touchend', (e) => {
+  imgContainer.addEventListener('touchend', (e) => {
     touchEndX = e.changedTouches[0].screenX;
     touchEndY = e.changedTouches[0].screenY;
     const dx = touchEndX - touchStartX;
     const dy = touchEndY - touchStartY;
 
-    // Réinitialiser le style
+    // Toujours réinitialiser la transformation
     lightboxImg.classList.remove('swiping');
     lightboxImg.style.transform = '';
-    lightboxImg.style.opacity = '';
 
     // Vérifier si c'est un vrai swipe horizontal
     if (Math.abs(dx) > SWIPE_THRESHOLD && Math.abs(dy) < VERTICAL_LIMIT) {
       if (dx < 0) {
-        nextImage(); // swipe vers la gauche = photo suivante
+        nextImage();
       } else {
-        prevImage(); // swipe vers la droite = photo précédente
+        prevImage();
       }
     }
-    isSwiping = false;
+  }, { passive: true });
+
+  // Sécurité : si touchcancel arrive, réinitialiser
+  imgContainer.addEventListener('touchcancel', () => {
+    lightboxImg.classList.remove('swiping');
+    lightboxImg.style.transform = '';
   }, { passive: true });
 
   // === FAQ ACCORDION ===
