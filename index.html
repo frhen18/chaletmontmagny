@@ -234,17 +234,17 @@
   --line-soft: #d9d0bc;
   --muted: #6b6a5e;
   --muted-soft: #8a8779;
-  
+
   --max-w: 1320px;
   --gutter: 2.5rem;
-  
+
   --font-serif: 'Fraunces', Georgia, serif;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  
+
   --shadow-sm: 0 1px 3px rgba(31, 42, 36, 0.06);
   --shadow-md: 0 4px 16px rgba(31, 42, 36, 0.08);
   --shadow-lg: 0 12px 40px rgba(31, 42, 36, 0.12);
-  
+
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -568,7 +568,7 @@ nav.site-nav.scrolled {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   opacity: 0;
-  animation: fadeIn 1s var(--ease-out) 2s forwards, gentleBounce 2.5s ease-in-out 3s infinite;
+  animation: scrollHintFade 1s var(--ease-out) 2s forwards, gentleBounce 2.5s ease-in-out 3s infinite;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -582,7 +582,7 @@ nav.site-nav.scrolled {
   background: var(--bg-light);
   opacity: 0.6;
 }
-@keyframes fadeIn { to { opacity: 0.8; } }
+@keyframes scrollHintFade { to { opacity: 0.8; } }
 @keyframes lightboxFadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes gentleBounce {
   0%, 100% { transform: translateX(-50%) translateY(0); }
@@ -747,13 +747,6 @@ section.section-wide { max-width: none; padding-left: 0; padding-right: 0; }
   transform: translateY(-1px);
   box-shadow: var(--shadow-md);
 }
-
-/* ============================================
-   STICKY BOOK CTA (mobile + scroll)
-   ============================================ */
-.sticky-cta {
-  display: none;
-}
 </style>
 </head>
 <body>
@@ -782,10 +775,6 @@ section.section-wide { max-width: none; padding-left: 0; padding-right: 0; }
     <li><a href="#reserver" class="nav-cta">Réserver →</a></li>
   </ul>
 </nav>
-
-<a href="#reserver" class="btn btn-accent sticky-cta" id="stickyCTA">
-  Réserver le chalet →
-</a>
 
 <main id="contenu">
 
@@ -1192,10 +1181,7 @@ section.section-wide { max-width: none; padding-left: 0; padding-right: 0; }
 .gallery-item:hover::after { opacity: 1; }
 
 .g-feature { grid-column: span 12; aspect-ratio: 21/9; }
-.g-large   { grid-column: span 8; aspect-ratio: 4/3; }
-.g-square  { grid-column: span 4; aspect-ratio: 1/1; }
 .g-half    { grid-column: span 6; aspect-ratio: 4/3; }
-.g-third   { grid-column: span 4; aspect-ratio: 3/4; }
 
 @media (max-width: 720px) {
   .gallery { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
@@ -1580,17 +1566,20 @@ section.section-wide { max-width: none; padding-left: 0; padding-right: 0; }
   </div>
 
   <div class="gallery">
+    <!-- Ligne 1 : Hero -->
     <div class="gallery-item g-feature reveal-image" data-img="images/01-coucher-soleil-feu.jpg" data-caption="Coucher de soleil et feu de camp">
       <img src="images/01-coucher-soleil-feu.jpg" alt="Coucher de soleil sur le fleuve avec feu" loading="lazy">
     </div>
 
-    <div class="gallery-item g-large reveal-image" data-img="images/02-feu-camp-fleuve.jpg" data-caption="Aire de feu de camp">
+    <!-- Ligne 2 : Extérieur -->
+    <div class="gallery-item g-half reveal-image" data-img="images/02-feu-camp-fleuve.jpg" data-caption="Aire de feu de camp">
       <img src="images/02-feu-camp-fleuve.jpg" alt="Aire de feu face au fleuve" loading="lazy">
     </div>
-    <div class="gallery-item g-square reveal-image delay-1" data-img="images/03-chalet-exterieur.jpg" data-caption="Le chalet sous les grands arbres">
+    <div class="gallery-item g-half reveal-image delay-1" data-img="images/03-chalet-exterieur.jpg" data-caption="Le chalet sous les grands arbres">
       <img src="images/03-chalet-exterieur.jpg" alt="Extérieur du chalet" loading="lazy">
     </div>
 
+    <!-- Ligne 3 : Bord du fleuve -->
     <div class="gallery-item g-half reveal-image" data-img="images/04-sentier-bord-fleuve.jpg" data-caption="Sentier en bord de fleuve">
       <img src="images/04-sentier-bord-fleuve.jpg" alt="Sentier" loading="lazy">
     </div>
@@ -1598,35 +1587,40 @@ section.section-wide { max-width: none; padding-left: 0; padding-right: 0; }
       <img src="images/05-vue-charlevoix-printemps.jpg" alt="Vue printemps" loading="lazy">
     </div>
 
-    <div class="gallery-item g-large reveal-image" data-img="images/06-salon-foyer-pierre.jpg" data-caption="Salon et foyer en pierre">
-      <img src="images/06-salon-foyer-pierre.jpg" alt="Salon avec foyer" loading="lazy">
-    </div>
-    <div class="gallery-item g-square reveal-image delay-1" data-img="images/08-cuisine.jpg" data-caption="Cuisine équipée">
-      <img src="images/08-cuisine.jpg" alt="Cuisine" loading="lazy">
-    </div>
-
-    <div class="gallery-item g-third reveal-image" data-img="images/09-chambre-principale.jpg" data-caption="Chambre principale">
-      <img src="images/09-chambre-principale.jpg" alt="Chambre principale" loading="lazy">
-    </div>
-    <div class="gallery-item g-third reveal-image delay-1" data-img="images/10-chambre-bleue.jpg" data-caption="Deuxième chambre">
-      <img src="images/10-chambre-bleue.jpg" alt="Deuxième chambre" loading="lazy">
-    </div>
-    <div class="gallery-item g-third reveal-image delay-2" data-img="images/11-chambre-rayures.jpg" data-caption="Troisième chambre">
-      <img src="images/11-chambre-rayures.jpg" alt="Troisième chambre" loading="lazy">
-    </div>
-
+    <!-- Ligne 4 : Salon vue large (pleine largeur) -->
     <div class="gallery-item g-feature reveal-image" data-img="images/07-salon-vue-large.jpg" data-caption="Vue d'ensemble du salon">
       <img src="images/07-salon-vue-large.jpg" alt="Vue d'ensemble du salon" loading="lazy">
     </div>
 
-    <div class="gallery-item g-half reveal-image" data-img="images/14-salle-bain.jpg" data-caption="Salle de bain moderne">
-      <img src="images/14-salle-bain.jpg" alt="Salle de bain avec douche en verre et finitions bois" loading="lazy">
+    <!-- Ligne 5 : Pièces de vie -->
+    <div class="gallery-item g-half reveal-image" data-img="images/06-salon-foyer-pierre.jpg" data-caption="Salon et foyer en pierre">
+      <img src="images/06-salon-foyer-pierre.jpg" alt="Salon avec foyer" loading="lazy">
     </div>
-    <div class="gallery-item g-half reveal-image delay-1" data-img="images/12-charcuterie-fleuve.jpg" data-caption="Soirée au bord du feu">
-      <img src="images/12-charcuterie-fleuve.jpg" alt="Charcuterie face au feu et au fleuve" loading="lazy">
+    <div class="gallery-item g-half reveal-image delay-1" data-img="images/08-cuisine.jpg" data-caption="Cuisine équipée">
+      <img src="images/08-cuisine.jpg" alt="Cuisine" loading="lazy">
     </div>
 
-    <div class="gallery-item g-half reveal-image" data-img="images/13-feu-coucher-soleil.jpg" data-caption="Feu de camp au coucher du soleil sur Charlevoix">
+    <!-- Ligne 6 : Chambres -->
+    <div class="gallery-item g-half reveal-image" data-img="images/09-chambre-principale.jpg" data-caption="Chambre principale">
+      <img src="images/09-chambre-principale.jpg" alt="Chambre principale" loading="lazy">
+    </div>
+    <div class="gallery-item g-half reveal-image delay-1" data-img="images/10-chambre-bleue.jpg" data-caption="Deuxième chambre">
+      <img src="images/10-chambre-bleue.jpg" alt="Deuxième chambre" loading="lazy">
+    </div>
+
+    <!-- Ligne 7 : Chambre + salle de bain -->
+    <div class="gallery-item g-half reveal-image" data-img="images/11-chambre-rayures.jpg" data-caption="Troisième chambre">
+      <img src="images/11-chambre-rayures.jpg" alt="Troisième chambre" loading="lazy">
+    </div>
+    <div class="gallery-item g-half reveal-image delay-1" data-img="images/14-salle-bain.jpg" data-caption="Salle de bain moderne">
+      <img src="images/14-salle-bain.jpg" alt="Salle de bain avec douche en verre et finitions bois" loading="lazy">
+    </div>
+
+    <!-- Ligne 8 : L'expérience -->
+    <div class="gallery-item g-half reveal-image" data-img="images/12-charcuterie-fleuve.jpg" data-caption="Soirée au bord du feu">
+      <img src="images/12-charcuterie-fleuve.jpg" alt="Charcuterie face au feu et au fleuve" loading="lazy">
+    </div>
+    <div class="gallery-item g-half reveal-image delay-1" data-img="images/13-feu-coucher-soleil.jpg" data-caption="Feu de camp au coucher du soleil sur Charlevoix">
       <img src="images/13-feu-coucher-soleil.jpg" alt="Feu actif avec coucher de soleil sur Charlevoix" loading="lazy">
     </div>
   </div>
@@ -3288,7 +3282,6 @@ footer {
   const nav = document.getElementById('nav');
   const progressBar = document.getElementById('progress');
   const backToTop = document.getElementById('backToTop');
-  const stickyCTA = document.getElementById('stickyCTA');
 
   function updateScroll() {
     const scrolled = window.scrollY;
@@ -3297,7 +3290,6 @@ footer {
     progressBar.style.width = pct + '%';
     nav.classList.toggle('scrolled', scrolled > 24);
     backToTop.classList.toggle('visible', scrolled > 600);
-    stickyCTA.classList.toggle('visible', scrolled > 600 && scrolled < total - 800);
   }
   window.addEventListener('scroll', updateScroll, { passive: true });
   updateScroll();
