@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="fr-CA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Guide d'accueil — Chalet sur le fleuve</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,300;9..144,0,400;9..144,0,500;9..144,0,600;9..144,1,400;9..144,1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f4efe6;
+  --bg-light: #faf6ee;
+  --bg-warm: #ebe3d4;
+  --ink: #1f2a24;
+  --ink-soft: #3a4942;
+  --moss: #3d5a45;
+  --terracotta: #b85c3a;
+  --muted: #8b8275;
+  --line: #d6cbb8;
+  --line-soft: #e5dcca;
+  --font-serif: 'Fraunces', Georgia, serif;
+  --font-sans: 'Inter', -apple-system, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  background: var(--bg);
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+.container { max-width: 720px; margin: 0 auto; }
+
+/* En-tête */
+.header {
+  padding-bottom: 1.5rem;
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.header .brand {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: 0.04em;
+}
+.header .brand span { font-weight: 300; }
+.header .tagline {
+  font-size: 0.85rem;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+/* Intro */
+.intro h1 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 2.4rem;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: 1rem;
+}
+.intro p {
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  margin-bottom: 2.5rem;
+}
+
+/* Sections */
+.section { margin-bottom: 2.75rem; }
+.section h2 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--moss);
+  padding-bottom: 0.6rem;
+  margin-bottom: 1.1rem;
+  border-bottom: 1px solid var(--line-soft);
+}
+.section p { margin-bottom: 0.75rem; }
+.section p:last-child { margin-bottom: 0; }
+.section strong { color: var(--ink); font-weight: 500; }
+.section em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--moss);
+}
+
+/* Bloc d'information clé (arrivée, wifi) */
+.infobox {
+  background: var(--bg-light);
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 0.75rem;
+}
+.infobox .row {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.35rem 0;
+  flex-wrap: wrap;
+}
+.infobox .row:not(:last-child) { border-bottom: 1px dotted var(--line); }
+.infobox .label {
+  font-weight: 500;
+  color: var(--ink);
+  min-width: 150px;
+}
+.infobox .value { color: var(--ink-soft); flex: 1; }
+
+/* Sous-titres d'équipement */
+.equip { margin-bottom: 1.3rem; }
+.equip h3 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--ink);
+  margin-bottom: 0.35rem;
+}
+
+/* Règles de vie */
+.rules { list-style: none; }
+.rules li {
+  display: flex;
+  gap: 0.85rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px dotted var(--line);
+}
+.rules li:last-child { border-bottom: none; }
+.rules .rule-title {
+  font-weight: 500;
+  color: var(--ink);
+  min-width: 170px;
+}
+.rules .rule-body { flex: 1; }
+
+/* Contact */
+.contact-box {
+  background: var(--moss);
+  color: #f4efe6;
+  border-radius: 4px;
+  padding: 1.6rem 1.8rem;
+  text-align: center;
+}
+.contact-box .name {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+  color: #fff;
+}
+.contact-box .phone {
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #fff;
+}
+.contact-box .note {
+  font-size: 0.85rem;
+  opacity: 0.85;
+  margin-top: 0.5rem;
+}
+
+/* Signature */
+.signoff {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.35rem;
+  color: var(--moss);
+  text-align: center;
+  margin: 3rem 0 2.5rem;
+}
+
+/* Pied */
+.footer {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 600px) {
+  body { padding: 1.75rem 1.1rem 3rem; }
+  .intro h1 { font-size: 1.9rem; }
+  .infobox .label { min-width: 100%; }
+  .rules .rule-title { min-width: 100%; }
+}
+
+@media print {
+  body { background: #fff; color: #000; padding: 0; font-size: 12pt; }
+  .contact-box { background: #fff; color: #000; border: 1px solid #000; }
+  .contact-box .name, .contact-box .phone { color: #000; }
+  .header { border-color: #000; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <span class="brand">CHALET <span>SUR LE FLEUVE</span></span>
+    <span class="tagline">·&nbsp;&nbsp;Guide d'accueil</span>
+  </div>
+
+  <div class="intro">
+    <h1>Bienvenue à notre chalet&#8201;!</h1>
+    <p>Tout d'abord, merci de venir profiter de cet endroit magique avec vos proches. Afin que votre séjour soit des plus agréables, voici quelques informations utiles à connaître.</p>
+  </div>
+
+  <div class="section">
+    <h2>Votre arrivée</h2>
+    <div class="infobox">
+      <div class="row"><span class="label">Adresse</span><span class="value">211, montée des Garrots, Montmagny (Québec) G5V&nbsp;3R8 <em>(anciennement Montée 717)</em></span></div>
+      <div class="row"><span class="label">Boîte à clé</span><span class="value">Sur la porte d'entrée</span></div>
+      <div class="row"><span class="label">Code d'accès</span><span class="value">Vous sera communiqué avant votre arrivée</span></div>
+      <div class="row"><span class="label">Arrivée</span><span class="value">À partir de 13&nbsp;h (contactez-nous si vous souhaitez arriver plus tôt)</span></div>
+      <div class="row"><span class="label">Départ</span><span class="value">Avant 13&nbsp;h (svp avisez-nous si vous quittez plus tôt)</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>L'eau</h2>
+    <p>Par mesure de précaution, nous avons l'habitude de fermer l'arrivée d'eau lorsque le chalet est inoccupé. L'eau sera donc probablement coupée à votre arrivée. Pour la réactiver, il suffit d'ouvrir la <strong>vanne avec manche bleu</strong> située dans la garde-robe de la salle de lavage, juste au-dessus du chauffe-eau. Ouvrez-la doucement d'un quart de tour anti-horaire jusqu'à ce qu'elle soit parallèle au tuyau.</p>
+    <p>À votre départ, pensez à refermer la vanne en faisant un quart de tour horaire (perpendiculaire au tuyau).</p>
+    <p>L'eau du chalet <strong>n'est pas potable</strong>. Elle peut toutefois être utilisée pour faire la vaisselle, prendre une douche, se brosser les dents, etc. De l'eau potable est à votre disposition (cruche de 18&nbsp;L). Le dispositif de distribution est rechargeable. Si vous manquez d'eau potable pendant votre séjour, vous pouvez rapporter la cruche vide au <strong>MAXI de Montmagny</strong> pour l'échanger.</p>
+  </div>
+
+  <div class="section">
+    <h2>Wi-Fi</h2>
+    <div class="infobox">
+      <div class="row"><span class="label">Réseau</span><span class="value"><em>[Nom du réseau]</em></span></div>
+      <div class="row"><span class="label">Mot de passe</span><span class="value"><em>[Mot de passe]</em></span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Les équipements</h2>
+
+    <div class="equip">
+      <h3>BBQ</h3>
+      <p>Ouvrir le gaz en tournant la <strong>valve bleue</strong> située sur le tuyau de raccordement à l'arrière du BBQ. <strong>Ne pas oublier de fermer la valve après utilisation.</strong></p>
+    </div>
+
+    <div class="equip">
+      <h3>Climatisation</h3>
+      <p>La télécommande du climatiseur mural se trouve <strong>sur le comptoir de la cuisine</strong>.</p>
+    </div>
+
+    <div class="equip">
+      <h3>Feux extérieurs</h3>
+      <p>Bois d'allumage disponible dans la <strong>remise à côté du chalet</strong>. Quelques bûches sont habituellement disponibles à côté du feu, sinon il y a beaucoup de bois à utiliser sur la grève. <strong>Ne pas oublier de bien éteindre le feu avant le coucher ou avant de quitter.</strong></p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Draps et serviettes</h2>
+    <p>Différents kits de draps de différentes grandeurs sont disponibles dans <strong>l'armoire de la chambre principale</strong>. Les serviettes et débarbouillettes sont disponibles dans <strong>l'armoire au-dessus de la laveuse-sécheuse</strong>.</p>
+    <p>À votre départ, merci de retirer les draps sales des lits utilisés et de les déposer dans le panier près de la laveuse. Vous pouvez également les laver et partir la sécheuse si vous avez le temps. <em>Merci&#8201;!</em></p>
+  </div>
+
+  <div class="section">
+    <h2>Poubelles et recyclage</h2>
+    <p>Avant votre départ, nous vous demandons de bien vouloir <strong>sortir les ordures et le recyclage</strong>. Afin d'éviter d'attirer la vermine, veuillez les déposer dans les bacs prévus à cet effet, situés sur le chemin de gravelle menant à la route 138. Après avoir quitté la section boisée, les bacs se trouvent sur votre droite.</p>
+  </div>
+
+  <div class="section">
+    <h2>Règles de vie</h2>
+    <p><em>Quelques règles simples pour que tout le monde profite pleinement du chalet&#8201;:</em></p>
+    <ul class="rules">
+      <li><span class="rule-title">Heures de silence</span><span class="rule-body">Il s'agit d'un endroit calme en tout temps. Merci de respecter le silence de la nature entre <strong>22&nbsp;h et 8&nbsp;h</strong>.</span></li>
+      <li><span class="rule-title">Capacité maximum</span><span class="rule-body">Le chalet peut accueillir jusqu'à <strong>8 personnes</strong>.</span></li>
+      <li><span class="rule-title">Animaux</span><span class="rule-body">Les compagnons à quatre pattes sont les bienvenus, sans frais.</span></li>
+      <li><span class="rule-title">Fumée</span><span class="rule-body">Aucune fumée à l'intérieur du chalet (cigarette, cannabis, vapotage).</span></li>
+      <li><span class="rule-title">Pas de fêtes ni d'événements</span><span class="rule-body">Le chalet est conçu pour des séjours familiaux et amicaux paisibles.</span></li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Pour toutes questions</h2>
+    <div class="contact-box">
+      <div class="name">Frédérick Henderson</div>
+      <div class="phone">418&nbsp;440-6471</div>
+      <div class="note">Préférablement par message texte</div>
+    </div>
+  </div>
+
+  <div class="signoff">Bon séjour au bord du fleuve&#8201;!</div>
+
+  <div class="footer">chaletmontmagny.ca&nbsp;&nbsp;·&nbsp;&nbsp;info@chaletmontmagny.ca&nbsp;&nbsp;·&nbsp;&nbsp;CITQ 323626</div>
+
+</div>
+</body>
+</html>
