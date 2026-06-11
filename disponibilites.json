@@ -8,6 +8,7 @@
  ],
   "bloque": [
     { "debut": "2026-05-01", "fin": "2026-05-15" },
+    { "debut": "2026-05-16", "fin": "2026-06-23", "note": "Ouverture et reparations" },
         { "debut": "2026-06-28", "fin": "2026-07-05", "note": "Famille" },
         { "debut": "2026-09-04", "fin": "2026-09-07", "note": "Famille" },
     { "debut": "2026-10-20", "fin": "2026-11-01" }
