@@ -7,5 +7,9 @@
     { "debut": "2026-07-30", "fin": "2026-08-04", "note": "Home Exchange Lysandre" },
     { "debut": "2026-08-05", "fin": "2026-08-16", "note": "Catherine" },
     { "debut": "2026-09-04", "fin": "2026-09-07", "note": "Famille" }
+ ],
+  "bloque": [
+    { "debut": "2026-05-01", "fin": "2026-05-15" },
+    { "debut": "2026-10-20", "fin": "2026-11-01" }
   ]
 }
