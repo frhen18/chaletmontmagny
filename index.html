@@ -2377,86 +2377,6 @@ section.section-wide { max-width: none; padding-left: 0; padding-right: 0; }
   max-height: 500px;
 }
 
-/* === TÉMOIGNAGES === */
-.testimonials {
-  background: var(--ink);
-  color: var(--bg-light);
-  padding: 7rem 0;
-}
-.testimonials-inner {
-  max-width: var(--max-w);
-  margin: 0 auto;
-  padding: 0 2.5rem;
-}
-.testimonials .section-header h2,
-.testimonials .section-header h2 em { color: var(--bg-light); }
-.testimonials .section-header h2 em { color: #d9c8a8; }
-.testimonials .section-eyebrow { color: #d9c8a8; }
-.testimonials .section-eyebrow .num { color: var(--muted-soft); }
-
-.testimonials-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2.5rem;
-  margin-top: 3rem;
-}
-.testimonial {
-  background: rgba(250, 246, 238, 0.04);
-  border: 1px solid rgba(250, 246, 238, 0.12);
-  border-radius: 4px;
-  padding: 2.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-.testimonial-quote {
-  font-family: var(--font-serif);
-  font-size: 1.075rem;
-  line-height: 1.65;
-  letter-spacing: -0.005em;
-  color: rgba(250, 246, 238, 0.92);
-  font-weight: 300;
-}
-.testimonial-quote::before {
-  content: '"';
-  font-family: var(--font-serif);
-  font-size: 2.5rem;
-  line-height: 0.4;
-  color: #d9c8a8;
-  display: block;
-  margin-bottom: 0.5rem;
-  font-style: italic;
-}
-.testimonial-author {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid rgba(250, 246, 238, 0.12);
-  margin-top: auto;
-}
-.testimonial-author .name {
-  font-weight: 500;
-  font-size: 0.95rem;
-}
-.testimonial-author .detail {
-  font-size: 0.8rem;
-  opacity: 0.65;
-  letter-spacing: 0.05em;
-}
-.testimonial-placeholder-note {
-  margin-top: 3rem;
-  font-size: 0.85rem;
-  opacity: 0.5;
-  text-align: center;
-  font-style: italic;
-}
-
-@media (max-width: 900px) {
-  .testimonials { padding: 5rem 0; }
-  .testimonials-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-}
-
 /* === RÉSERVATION === */
 .reservation {
   padding: 7rem 0;
@@ -3094,54 +3014,6 @@ footer {
   </div>
 </section>
 
-<!-- ============================================
-     TÉMOIGNAGES (placeholders élégants)
-     ============================================ -->
-<section class="testimonials section-wide">
-  <div class="testimonials-inner">
-    <div class="section-header reveal">
-      <div class="section-eyebrow">
-        <span class="num">11 / Ils ont aimé</span>
-        Témoignages
-      </div>
-      <h2>Ce que disent <em>ceux qui sont venus.</em></h2>
-    </div>
-
-    <div class="testimonials-grid reveal">
-      <div class="testimonial">
-        <p class="testimonial-quote">
-          Un de mes plus beaux séjours à ce jour. Chaque année j'aime prendre quelques jours seule dans un endroit paisible pour pratiquer la pleine conscience et décrocher — c'était l'endroit parfait. La disposition du chalet permet une vue imprenable sur le Saint-Laurent et la propriété est aménagée pour profiter du soleil ou de l'ombre, à son rythme. Un accueil chaleureux et flexible. Merci!
-        </p>
-        <div class="testimonial-author">
-          <span class="name">Shirley</span>
-          <span class="detail">Séjour solo · Juin</span>
-        </div>
-      </div>
-
-      <div class="testimonial">
-        <p class="testimonial-quote">
-          Se détendre au bord du fleuve au rythme des marées, aller à l'Île aux Grues, se baigner à Berthier et revenir au chalet relaxer — que demander de plus?
-        </p>
-        <div class="testimonial-author">
-          <span class="name">Myriam</span>
-          <span class="detail">Séjour de 9 jours · Juillet</span>
-        </div>
-      </div>
-
-      <div class="testimonial">
-        <p class="testimonial-quote">
-          Très bon séjour au chalet. Un coucher de soleil à couper le souffle. Nous avons apprécié et nous recommandons. Merci!
-        </p>
-        <div class="testimonial-author">
-          <span class="name">Pierre</span>
-          <span class="detail">Court séjour · Août</span>
-        </div>
-      </div>
-    </div>
-
-    <p class="testimonial-placeholder-note">Avis recueillis lors de séjours en 2025.</p>
-  </div>
-</section>
 
 <!-- ============================================
      RÉSERVATION
@@ -3150,7 +3022,7 @@ footer {
   <div class="reservation-inner">
     <div class="section-header reveal">
       <div class="section-eyebrow">
-        <span class="num">12 / Réservation</span>
+        <span class="num">11 / Réservation</span>
         Une demande, une réponse rapide
       </div>
       <h2>Faites une <em>demande,</em> nous vous répondons sous 24 h.</h2>
