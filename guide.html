@@ -131,6 +131,21 @@ body {
   color: var(--ink);
   margin-bottom: 0.35rem;
 }
+.equip-photo {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  margin-top: 0.7rem;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+}
+.equip-photo + .caption {
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-style: italic;
+  margin-top: 0.4rem;
+}
 
 /* Règles de vie */
 .rules { list-style: none; }
@@ -258,6 +273,8 @@ body {
     <div class="equip">
       <h3>BBQ</h3>
       <p>Ouvrir le gaz en tournant la <strong>valve bleue</strong> située sur le tuyau de raccordement à l'arrière du BBQ. <strong>Ne pas oublier de fermer la valve après utilisation.</strong></p>
+      <img class="equip-photo" src="images/guide-valve-bbq.jpg" alt="Valve de gaz à poignée bleue sur le tuyau de raccordement du BBQ" loading="lazy">
+      <p class="caption">La valve bleue à ouvrir et fermer.</p>
     </div>
 
     <div class="equip">
