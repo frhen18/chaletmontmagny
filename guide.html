@@ -146,6 +146,31 @@ body {
   font-style: italic;
   margin-top: 0.4rem;
 }
+.valve-photos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.1rem;
+  margin-top: 0.9rem;
+}
+.valve-photos figure {
+  flex: 1 1 200px;
+  max-width: 280px;
+  margin: 0;
+}
+.valve-photos img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+}
+.valve-photos figcaption {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  margin-top: 0.4rem;
+  text-align: center;
+}
+.valve-photos figcaption strong { color: var(--ink); }
 
 /* Règles de vie */
 .rules { list-style: none; }
@@ -256,14 +281,24 @@ body {
     <h2>L'eau</h2>
     <p>Par mesure de précaution, nous avons l'habitude de fermer l'arrivée d'eau lorsque le chalet est inoccupé. L'eau sera donc probablement coupée à votre arrivée. Pour la réactiver, il suffit d'ouvrir la <strong>vanne avec manche bleu</strong> située dans la garde-robe de la salle de lavage, juste au-dessus du chauffe-eau. Ouvrez-la doucement d'un quart de tour anti-horaire jusqu'à ce qu'elle soit parallèle au tuyau.</p>
     <p>À votre départ, pensez à refermer la vanne en faisant un quart de tour horaire (perpendiculaire au tuyau).</p>
+    <div class="valve-photos">
+      <figure>
+        <img src="images/guide-valve-eau-ouverte.jpg" alt="Vanne d'eau en position ouverte, manche parallèle au tuyau" loading="lazy">
+        <figcaption><strong>Ouverte</strong> — manche parallèle au tuyau</figcaption>
+      </figure>
+      <figure>
+        <img src="images/guide-valve-eau-fermee.jpg" alt="Vanne d'eau en position fermée, manche perpendiculaire au tuyau" loading="lazy">
+        <figcaption><strong>Fermée</strong> — manche perpendiculaire au tuyau</figcaption>
+      </figure>
+    </div>
     <p>L'eau du chalet <strong>n'est pas potable</strong>. Elle peut toutefois être utilisée pour faire la vaisselle, prendre une douche, se brosser les dents, etc. De l'eau potable est à votre disposition (cruche de 18&nbsp;L). Le dispositif de distribution est rechargeable. Si vous manquez d'eau potable pendant votre séjour, vous pouvez rapporter la cruche vide au <strong>MAXI de Montmagny</strong> pour l'échanger.</p>
   </div>
 
   <div class="section">
     <h2>Wi-Fi</h2>
     <div class="infobox">
-      <div class="row"><span class="label">Réseau</span><span class="value"><em>[Nom du réseau]</em></span></div>
-      <div class="row"><span class="label">Mot de passe</span><span class="value"><em>[Mot de passe]</em></span></div>
+      <div class="row"><span class="label">Réseau</span><span class="value">TELUS9041</span></div>
+      <div class="row"><span class="label">Mot de passe</span><span class="value">V7zC7P2HtrKX</span></div>
     </div>
   </div>
 
