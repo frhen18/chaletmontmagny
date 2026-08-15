@@ -3,7 +3,8 @@
     { "debut": "2026-06-24", "fin": "2026-06-27", "note": "Shirley" },
     { "debut": "2026-07-06", "fin": "2026-07-20", "note": "Cynthia" },
     { "debut": "2026-07-21", "fin": "2026-07-26", "note": "Shirley 2" },
-    { "debut": "2026-08-05", "fin": "2026-08-16", "note": "Catherine" }
+    { "debut": "2026-08-05", "fin": "2026-08-16", "note": "Catherine" },
+    { "debut": "2027-07-25", "fin": "2027-07-31", "note": "grand-pere" }
  ],
   "bloque": [
     { "debut": "2026-05-01", "fin": "2026-05-15" },
